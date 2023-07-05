@@ -1,6 +1,7 @@
 package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.Contact;
+import com.divnych.phonecontacts.entity.User;
 import com.divnych.phonecontacts.mapper.ContactMapper;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
@@ -35,11 +36,15 @@ public class ContactService {
     }
 
     public void updateContact(Long id, ContactRequest request) {
-        Contact existingContact = contactRepository.findById(id).orElseThrow(()->new RuntimeException("Task is not found"));
+        Contact existingContact = getContactById(id);
         existingContact.setName(request.getName());
         existingContact.setEmails(request.getEmails());
         existingContact.setPhoneNumbers(request.getPhoneNumbers());
         contactRepository.save(existingContact);
+    }
+
+    private Contact getContactById(Long id) {
+        return contactRepository.findById(id).orElseThrow(()->new RuntimeException("Task is not found"));
     }
 
     public List<ContactResponse> getAllContacts() {
@@ -47,4 +52,12 @@ public class ContactService {
         return ContactMapper.mapContactsToContactResponses(contacts);
     }
 
+    public void deleteContact(Long id) {
+        Contact existingContact = getContactById(id);
+        User contactUser = existingContact.getUser();
+        User currentUser = userService.getCurrentUser();
+        if(currentUser.getId().equals(contactUser.getId())) {
+            contactRepository.deleteById(id);
+        }
+    }
 }

@@ -32,5 +32,10 @@ public class ContactController {
         return contactService.getAllContacts();
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteContact(@PathVariable("id") Long id) {
+        contactService.deleteContact(id);
+    }
+
 
 }
