@@ -2,10 +2,10 @@ package com.divnych.phonecontacts.controller;
 
 
 import com.divnych.phonecontacts.entity.User;
-import com.divnych.phonecontacts.playload.JwtResponse;
-import com.divnych.phonecontacts.playload.LoginRequest;
-import com.divnych.phonecontacts.playload.MessageResponse;
-import com.divnych.phonecontacts.playload.SignupRequest;
+import com.divnych.phonecontacts.payload.JwtResponse;
+import com.divnych.phonecontacts.payload.LoginRequest;
+import com.divnych.phonecontacts.payload.MessageResponse;
+import com.divnych.phonecontacts.payload.SignupRequest;
 import com.divnych.phonecontacts.repository.UserRepository;
 import com.divnych.phonecontacts.security.jwt.JwtUtils;
 import com.divnych.phonecontacts.security.service.UserDetailsImpl;

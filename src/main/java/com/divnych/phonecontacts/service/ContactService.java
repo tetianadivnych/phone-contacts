@@ -1,7 +1,7 @@
 package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.Contact;
-import com.divnych.phonecontacts.playload.ContactRequest;
+import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +28,13 @@ public class ContactService {
         } else {
             contactRepository.save(contact);
         }
+    }
+
+    public void updateContact(Long id, ContactRequest request) {
+        Contact existingContact = contactRepository.findById(id).orElseThrow(()->new RuntimeException("Task is not found"));
+        existingContact.setName(request.getName());
+        existingContact.setEmails(request.getEmails());
+        existingContact.setPhoneNumbers(request.getPhoneNumbers());
+        contactRepository.save(existingContact);
     }
 }

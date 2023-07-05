@@ -1,4 +1,4 @@
-package com.divnych.phonecontacts.playload;
+package com.divnych.phonecontacts.payload;
 
 import lombok.Getter;
 import lombok.Setter;

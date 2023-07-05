@@ -1,11 +1,8 @@
 package com.divnych.phonecontacts.controller;
 
-import com.divnych.phonecontacts.playload.ContactRequest;
+import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.service.ContactService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/contacts")
@@ -21,6 +18,12 @@ public class ContactController {
     public void addContact(@RequestBody ContactRequest request) {
         contactService.addContact(request);
     }
+
+    @PutMapping("/update/{id}")
+    public void updateContact(@PathVariable("id") Long id, @RequestBody ContactRequest request) {
+        contactService.updateContact(id, request);
+    }
+
 
 
 }
