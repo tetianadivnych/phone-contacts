@@ -5,6 +5,7 @@ import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.service.ContactService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class ContactController {
     }
 
     @PostMapping("/add")
-    public void addContact(@RequestBody ContactRequest request) {
+    public void addContact(@RequestBody @Valid ContactRequest request) {
         contactService.addContact(request);
     }
 

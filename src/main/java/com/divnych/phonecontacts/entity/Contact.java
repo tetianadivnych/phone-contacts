@@ -24,7 +24,7 @@ public class Contact {
     private Set<String> emails = new HashSet<>();
 
     @ElementCollection
-    private Set<Integer> phoneNumbers = new HashSet<>();
+    private Set<String> phoneNumbers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")

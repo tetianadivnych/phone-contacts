@@ -16,6 +16,6 @@ public class ContactResponse {
 
     private Set<String> emails = new HashSet<>();
 
-    private Set<Integer> phoneNumbers = new HashSet<>();
+    private Set<String> phoneNumbers = new HashSet<>();
 
 }

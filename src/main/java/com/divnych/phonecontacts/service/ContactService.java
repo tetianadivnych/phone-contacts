@@ -26,6 +26,7 @@ public class ContactService {
         Contact contact = new Contact();
         contact.setName(request.getName());
         contact.setEmails(request.getEmails());
+
         contact.setPhoneNumbers(request.getPhoneNumbers());
         contact.setUser(userService.getCurrentUser());
         if (contactRepository.existsByName(request.getName())) {
@@ -60,4 +61,5 @@ public class ContactService {
             contactRepository.deleteById(id);
         }
     }
+
 }
