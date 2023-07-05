@@ -1,8 +1,11 @@
 package com.divnych.phonecontacts.controller;
 
 import com.divnych.phonecontacts.payload.ContactRequest;
+import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.service.ContactService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/contacts")
@@ -24,6 +27,10 @@ public class ContactController {
         contactService.updateContact(id, request);
     }
 
+    @GetMapping("/all")
+    public List<ContactResponse> getAllContacts() {
+        return contactService.getAllContacts();
+    }
 
 
 }

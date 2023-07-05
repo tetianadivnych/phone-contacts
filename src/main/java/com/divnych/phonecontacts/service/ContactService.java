@@ -1,9 +1,13 @@
 package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.Contact;
+import com.divnych.phonecontacts.mapper.ContactMapper;
 import com.divnych.phonecontacts.payload.ContactRequest;
+import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ContactService {
@@ -37,4 +41,10 @@ public class ContactService {
         existingContact.setPhoneNumbers(request.getPhoneNumbers());
         contactRepository.save(existingContact);
     }
+
+    public List<ContactResponse> getAllContacts() {
+        List<Contact> contacts = contactRepository.findByUser(userService.getCurrentUser());
+        return ContactMapper.mapContactsToContactResponses(contacts);
+    }
+
 }
