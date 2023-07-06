@@ -2,6 +2,7 @@ package com.divnych.phonecontacts;
 
 import com.divnych.phonecontacts.entity.Contact;
 import com.divnych.phonecontacts.entity.User;
+import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
 import com.divnych.phonecontacts.service.ContactService;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -32,7 +34,7 @@ public class ContactServiceTest {
 
     @Test
     @DisplayName("Should return contacts for current user")
-    void getContacts() {
+    void testGetContacts() {
         User user = generateUser();
         when(userService.getCurrentUser()).thenReturn(user);
         List<Contact> contacts = generateContacts();
@@ -61,5 +63,22 @@ public class ContactServiceTest {
         return user;
     }
 
+    private static ContactRequest generateContactRequest() {
+        ContactRequest request = new ContactRequest();
+        request.setName("Peter");
+        request.setEmails(Set.of("p.parker@gmail.com", "peter.parker@gmail.com"));
+        request.setPhoneNumbers(Set.of("+380671122333", "+380671122334"));
+        return request;
+    }
+
+    @Test
+    @DisplayName("Should create a new contact")
+    public void testAddContact() {
+        ContactRequest request = generateContactRequest();
+        User user = generateUser();
+        when(contactRepository.existsByName(request.getName())).thenReturn(false);
+        when(userService.getCurrentUser()).thenReturn(user);
+        contactService.addContact(request);
+    }
 
 }

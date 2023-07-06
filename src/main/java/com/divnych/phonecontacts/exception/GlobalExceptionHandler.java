@@ -29,14 +29,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(ContactServiceException.class)
-    public ResponseEntity<Object> handleContactService(ContactServiceException ex) {
+    @ExceptionHandler(DuplicateContactFoundException.class)
+    public ResponseEntity<Object> handleDuplicateContactFound(DuplicateContactFoundException ex) {
         String message = ex.getMessage();
         return ResponseEntity.badRequest().body(message);
     }
 
-    @ExceptionHandler(UserServiceException.class)
-    public ResponseEntity<Object> handleUserService(UserServiceException ex) {
+    @ExceptionHandler(ContactNotFoundException.class)
+    public ResponseEntity<Object> handleContactNotFound(ContactNotFoundException ex) {
         String message = ex.getMessage();
         return ResponseEntity.badRequest().body(message);
     }
