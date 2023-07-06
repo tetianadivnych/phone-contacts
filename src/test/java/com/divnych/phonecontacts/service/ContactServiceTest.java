@@ -1,4 +1,4 @@
-package com.divnych.phonecontacts;
+package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.Contact;
 import com.divnych.phonecontacts.entity.User;
@@ -6,8 +6,6 @@ import com.divnych.phonecontacts.exception.DuplicateContactFoundException;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
-import com.divnych.phonecontacts.service.ContactService;
-import com.divnych.phonecontacts.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +45,6 @@ public class ContactServiceTest {
         assertEquals(1L, actualResult.get(0).getId());
         assertEquals(2L, actualResult.get(1).getId());
     }
-
 
 
     @Test
@@ -150,10 +147,6 @@ public class ContactServiceTest {
         user.setId(id);
         return user;
     }
-
-
-
-
 
 
 }
