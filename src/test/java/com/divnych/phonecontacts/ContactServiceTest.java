@@ -2,6 +2,7 @@ package com.divnych.phonecontacts;
 
 import com.divnych.phonecontacts.entity.Contact;
 import com.divnych.phonecontacts.entity.User;
+import com.divnych.phonecontacts.exception.DuplicateContactFoundException;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
@@ -15,10 +16,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ContactServiceTest {
@@ -45,22 +48,58 @@ public class ContactServiceTest {
         assertEquals(2L, actualResult.get(1).getId());
     }
 
+
+
+    @Test
+    @DisplayName("Should create a new contact")
+    public void testAddContact() {
+        ContactRequest request = generateContactRequest();
+        User user = generateUser();
+        when(contactRepository.existsByName(request.getName())).thenReturn(false);
+        when(userService.getCurrentUser()).thenReturn(user);
+        contactService.addContact(request);
+        verify(contactRepository, times(1)).existsByName(request.getName());
+        verify(userService, times(1)).getCurrentUser();
+        verify(contactRepository, times(1)).save(any());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when contact name exists")
+    public void testAddContactWithExistingName() {
+        ContactRequest request = generateContactRequest();
+        when(contactRepository.existsByName(request.getName())).thenReturn(true);
+        assertThrows(DuplicateContactFoundException.class, () -> contactService.addContact(request));
+        verifyNoInteractions(userService);
+        verifyNoMoreInteractions(contactRepository);
+    }
+
+    @Test
+    @DisplayName("Should update contact")
+    public void testUpdateContact() {
+        ContactRequest request = generateContactRequest();
+        Long id = 1L;
+        Contact contact = generateContact();
+        when(contactRepository.findById(id)).thenReturn(Optional.of(contact));
+        contactService.updateContact(id, request);
+        verify(contactRepository, times(1)).findById(id);
+        verify(contactRepository, times(1)).save(any());
+    }
+
+    private static Contact generateContact() {
+        Contact contact = new Contact();
+        contact.setId(1L);
+        return contact;
+    }
+
     private static List<Contact> generateContacts() {
-        Contact contact1 = new Contact();
-        contact1.setId(1L);
+        Contact contact1 = generateContact();
         contact1.setName("Robin");
         contact1.setUser(generateUser());
-        Contact contact2 = new Contact();
+        Contact contact2 = generateContact();
         contact2.setId(2L);
         contact2.setName("Lora");
         contact2.setUser(generateUser());
         return List.of(contact1, contact2);
-    }
-
-    private static User generateUser() {
-        User user = new User();
-        user.setId(1L);
-        return user;
     }
 
     private static ContactRequest generateContactRequest() {
@@ -71,14 +110,11 @@ public class ContactServiceTest {
         return request;
     }
 
-    @Test
-    @DisplayName("Should create a new contact")
-    public void testAddContact() {
-        ContactRequest request = generateContactRequest();
-        User user = generateUser();
-        when(contactRepository.existsByName(request.getName())).thenReturn(false);
-        when(userService.getCurrentUser()).thenReturn(user);
-        contactService.addContact(request);
+    private static User generateUser() {
+        User user = new User();
+        user.setId(1L);
+        return user;
     }
+
 
 }
