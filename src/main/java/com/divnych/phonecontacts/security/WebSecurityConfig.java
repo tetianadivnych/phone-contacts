@@ -37,10 +37,8 @@ public class WebSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
@@ -61,18 +59,11 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/**", "/h2-console/**", "/favicon.ico", "/console/**").permitAll()
                 .requestMatchers(toH2Console()).permitAll()
-
                 .anyRequest().authenticated();
-
         http.authenticationProvider(authenticationProvider());
-
         http.headers().frameOptions().disable();
-
-
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-
 
 }

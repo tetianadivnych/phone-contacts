@@ -45,8 +45,7 @@ public class AuthService {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Username " + request.getLogin() + " has already been taken"));
         }
-        User user = new User(request.getLogin(),
-                encoder.encode(request.getPassword()));
+        User user = new User(request.getLogin(), encoder.encode(request.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

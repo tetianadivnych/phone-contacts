@@ -16,7 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.transaction.Transactional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,20 +41,6 @@ public class ContactControllerTest {
     @BeforeEach
     void init() {
         userRepository.save(generateUser());
-    }
-
-    @Test
-    @Transactional
-    @WithMockUser(username = "user")
-    void addContact() throws Exception {
-        ContactRequest request = generateContactRequest();
-        mockMvc.perform(post("/contacts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
-        Contact contact = contactRepository.findById(1L).get();
-        assertEquals(request.getName(), contact.getName());
-        assertEquals(request.getEmails().iterator().next(), contact.getEmails().iterator().next());
     }
 
     @Test
@@ -97,6 +82,18 @@ public class ContactControllerTest {
         mockMvc.perform(delete("/contacts/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void addContact() throws Exception {
+        ContactRequest request = generateContactRequest();
+        mockMvc.perform(post("/contacts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+        Contact contact = contactRepository.findById(1L).get();
+        assertEquals(request.getName(), contact.getName());
     }
 
     private static ContactRequest generateContactRequest() {

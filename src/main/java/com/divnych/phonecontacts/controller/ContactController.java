@@ -27,7 +27,7 @@ public class ContactController {
     }
 
     @PutMapping("/{id}")
-    public void updateContact(@PathVariable("id") Long id, @RequestBody ContactRequest request) {
+    public void updateContact(@PathVariable("id") @Valid Long id, @RequestBody ContactRequest request) {
         contactService.updateContact(id, request);
     }
 
