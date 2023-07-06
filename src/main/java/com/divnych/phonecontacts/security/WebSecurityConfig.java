@@ -57,7 +57,8 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/auth/**", "/h2-console/**", "/favicon.ico", "/console/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**", "/h2-console/**", "/favicon.ico", "/console/**",
+                        "/swagger-ui/**", "/swagger-ui.html/**", "/v3/**").permitAll()
                 .requestMatchers(toH2Console()).permitAll()
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
