@@ -85,6 +85,35 @@ public class ContactServiceTest {
         verify(contactRepository, times(1)).save(any());
     }
 
+    @Test
+    @DisplayName("Should delete existing contact")
+    public void testDeleteContact() {
+        User user = generateUser();
+        Long id = 1L;
+        Contact contact = generateContact();
+        contact.setUser(user);
+        when(contactRepository.findById(id)).thenReturn(Optional.of(contact));
+        when(userService.getCurrentUser()).thenReturn(user);
+        contactService.deleteContact(id);
+        verify(contactRepository, times(1)).findById(id);
+        verify(userService, times(1)).getCurrentUser();
+        verify(contactRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    @DisplayName("Should not delete existing contact")
+    public void testDeleteContactWithWrongUser() {
+        Long id = 1L;
+        Contact contact = generateContact();
+        contact.setUser(generateUser());
+        when(contactRepository.findById(id)).thenReturn(Optional.of(contact));
+        when(userService.getCurrentUser()).thenReturn(generateUser(2L));
+        contactService.deleteContact(id);
+        verify(contactRepository, times(1)).findById(id);
+        verify(userService, times(1)).getCurrentUser();
+        verifyNoMoreInteractions(contactRepository);
+    }
+
     private static Contact generateContact() {
         Contact contact = new Contact();
         contact.setId(1L);
@@ -115,6 +144,16 @@ public class ContactServiceTest {
         user.setId(1L);
         return user;
     }
+
+    private static User generateUser(Long id) {
+        User user = new User();
+        user.setId(id);
+        return user;
+    }
+
+
+
+
 
 
 }
