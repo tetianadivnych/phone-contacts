@@ -21,20 +21,15 @@ public class ContactService {
     private final UserService userService;
 
     public void addContact(ContactRequest request) {
+        if (contactRepository.existsByName(request.getName())) {
+            throw new ContactServiceException("Contact with name " + request.getName() + " already exists");
+        }
         Contact contact = new Contact();
         contact.setName(request.getName());
         contact.setEmails(request.getEmails());
         contact.setPhoneNumbers(request.getPhoneNumbers());
         contact.setUser(userService.getCurrentUser());
-        validateContactRequest(request, contact);
-    }
-
-    private void validateContactRequest(ContactRequest request, Contact contact) {
-        if (contactRepository.existsByName(request.getName())) {
-            throw new ContactServiceException("Contact with name " + request.getName() + " already exists");
-        } else {
-            contactRepository.save(contact);
-        }
+        contactRepository.save(contact);
     }
 
     public void updateContact(Long id, ContactRequest request) {
