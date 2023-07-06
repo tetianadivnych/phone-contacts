@@ -5,11 +5,13 @@ import com.divnych.phonecontacts.entity.User;
 import com.divnych.phonecontacts.exception.ContactNotFoundException;
 import com.divnych.phonecontacts.exception.DuplicateContactFoundException;
 import com.divnych.phonecontacts.mapper.ContactMapper;
+import com.divnych.phonecontacts.mapper.FileMapper;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,4 +62,19 @@ public class ContactService {
         }
     }
 
+    public void addContactImage(Long id, MultipartFile file) {
+        Contact existingContact = getContactById(id);
+        existingContact.setPhoto(FileMapper.mapFiletoString(file));
+        contactRepository.save(existingContact);
+    }
+
+    public byte[] getContactImage(Long id) {
+        Contact existingContact = getContactById(id);
+        User contactUser = existingContact.getUser();
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getId().equals(contactUser.getId())) {
+            return FileMapper.mapStringToBytes(existingContact.getPhoto());
+        }
+        return new byte[0];
+    }
 }

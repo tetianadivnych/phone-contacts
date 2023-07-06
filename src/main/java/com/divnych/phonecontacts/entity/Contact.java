@@ -32,4 +32,7 @@ public class Contact {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Lob
+    private String photo;
+
 }

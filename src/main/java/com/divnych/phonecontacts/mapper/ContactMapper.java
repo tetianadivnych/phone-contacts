@@ -22,4 +22,5 @@ public class ContactMapper {
                 .map(contact -> mapContactToContactResponse(contact))
                 .collect(Collectors.toList());
     }
+
 }
