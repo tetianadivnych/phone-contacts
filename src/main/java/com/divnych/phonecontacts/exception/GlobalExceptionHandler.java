@@ -3,7 +3,6 @@ package com.divnych.phonecontacts.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,7 +18,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status,
+                                                                  WebRequest request) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -29,9 +29,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<Object> handleUsernameNotFound(UsernameNotFoundException ex) {
+    @ExceptionHandler(ContactServiceException.class)
+    public ResponseEntity<Object> handleContactService(ContactServiceException ex) {
         String message = ex.getMessage();
         return ResponseEntity.badRequest().body(message);
     }
+
+    @ExceptionHandler(UserServiceException.class)
+    public ResponseEntity<Object> handleUserService(UserServiceException ex) {
+        String message = ex.getMessage();
+        return ResponseEntity.badRequest().body(message);
+    }
+
 }

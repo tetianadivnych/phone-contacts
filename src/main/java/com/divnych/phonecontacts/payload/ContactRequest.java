@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 public class ContactRequest {
 
+
     private String name;
 
     private Set<@Email String> emails = new HashSet<>();

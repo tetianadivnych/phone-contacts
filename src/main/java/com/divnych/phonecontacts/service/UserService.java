@@ -1,6 +1,7 @@
 package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.User;
+import com.divnych.phonecontacts.exception.UserServiceException;
 import com.divnych.phonecontacts.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ public class UserService {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = principal.getUsername();
         return userRepository.findByLogin(login)
-                .orElseThrow(() -> new RuntimeException("User with login " + login + " not found"));
+                .orElseThrow(() -> new UserServiceException("User with login " + login + " not found"));
     }
+
 }

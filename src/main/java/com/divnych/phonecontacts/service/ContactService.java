@@ -2,6 +2,7 @@ package com.divnych.phonecontacts.service;
 
 import com.divnych.phonecontacts.entity.Contact;
 import com.divnych.phonecontacts.entity.User;
+import com.divnych.phonecontacts.exception.ContactServiceException;
 import com.divnych.phonecontacts.mapper.ContactMapper;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
@@ -26,11 +27,14 @@ public class ContactService {
         Contact contact = new Contact();
         contact.setName(request.getName());
         contact.setEmails(request.getEmails());
-
         contact.setPhoneNumbers(request.getPhoneNumbers());
         contact.setUser(userService.getCurrentUser());
+        validateContactRequest(request, contact);
+    }
+
+    private void validateContactRequest(ContactRequest request, Contact contact) {
         if (contactRepository.existsByName(request.getName())) {
-            throw new RuntimeException("Contact with name " + request.getName() + " already exists");
+            throw new ContactServiceException("Contact with name " + request.getName() + " already exists");
         } else {
             contactRepository.save(contact);
         }
@@ -45,7 +49,8 @@ public class ContactService {
     }
 
     private Contact getContactById(Long id) {
-        return contactRepository.findById(id).orElseThrow(()->new RuntimeException("Task is not found"));
+        return contactRepository.findById(id)
+                .orElseThrow(() -> new ContactServiceException("Contact with id " + id + " is not found"));
     }
 
     public List<ContactResponse> getAllContacts() {
@@ -57,7 +62,7 @@ public class ContactService {
         Contact existingContact = getContactById(id);
         User contactUser = existingContact.getUser();
         User currentUser = userService.getCurrentUser();
-        if(currentUser.getId().equals(contactUser.getId())) {
+        if (currentUser.getId().equals(contactUser.getId())) {
             contactRepository.deleteById(id);
         }
     }
