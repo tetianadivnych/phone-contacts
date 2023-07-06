@@ -16,6 +16,11 @@ public class ContactController {
 
     private final ContactService contactService;
 
+    @GetMapping()
+    public List<ContactResponse> getAllContacts() {
+        return contactService.getAllContacts();
+    }
+
     @PostMapping("/add")
     public void addContact(@RequestBody @Valid ContactRequest request) {
         contactService.addContact(request);
@@ -24,11 +29,6 @@ public class ContactController {
     @PutMapping("/update/{id}")
     public void updateContact(@PathVariable("id") Long id, @RequestBody ContactRequest request) {
         contactService.updateContact(id, request);
-    }
-
-    @GetMapping("/all")
-    public List<ContactResponse> getAllContacts() {
-        return contactService.getAllContacts();
     }
 
     @DeleteMapping("/delete/{id}")
