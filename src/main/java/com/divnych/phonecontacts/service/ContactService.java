@@ -7,21 +7,18 @@ import com.divnych.phonecontacts.mapper.ContactMapper;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.repository.ContactRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ContactService {
 
     private final ContactRepository contactRepository;
 
     private final UserService userService;
-
-    public ContactService(ContactRepository contactRepository, UserService userService) {
-        this.contactRepository = contactRepository;
-        this.userService = userService;
-    }
 
     public void addContact(ContactRequest request) {
         Contact contact = new Contact();

@@ -3,20 +3,18 @@ package com.divnych.phonecontacts.controller;
 import com.divnych.phonecontacts.payload.ContactRequest;
 import com.divnych.phonecontacts.payload.ContactResponse;
 import com.divnych.phonecontacts.service.ContactService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/contacts")
 public class ContactController {
 
     private final ContactService contactService;
-
-    public ContactController(ContactService contactService) {
-        this.contactService = contactService;
-    }
 
     @PostMapping("/add")
     public void addContact(@RequestBody @Valid ContactRequest request) {
