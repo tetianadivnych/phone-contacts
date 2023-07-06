@@ -20,6 +20,11 @@ public class ContactService {
 
     private final UserService userService;
 
+    public List<ContactResponse> getContacts() {
+        List<Contact> contacts = contactRepository.findByUser(userService.getCurrentUser());
+        return ContactMapper.mapContactsToContactResponses(contacts);
+    }
+
     public void addContact(ContactRequest request) {
         if (contactRepository.existsByName(request.getName())) {
             throw new ContactServiceException("Contact with name " + request.getName() + " already exists");
@@ -45,11 +50,6 @@ public class ContactService {
                 .orElseThrow(() -> new ContactServiceException("Contact with id " + id + " is not found"));
     }
 
-    public List<ContactResponse> getAllContacts() {
-        List<Contact> contacts = contactRepository.findByUser(userService.getCurrentUser());
-        return ContactMapper.mapContactsToContactResponses(contacts);
-    }
-
     public void deleteContact(Long id) {
         Contact existingContact = getContactById(id);
         User contactUser = existingContact.getUser();
@@ -58,5 +58,6 @@ public class ContactService {
             contactRepository.deleteById(id);
         }
     }
+
 
 }
