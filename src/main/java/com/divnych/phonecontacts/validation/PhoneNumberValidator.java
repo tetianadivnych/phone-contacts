@@ -15,8 +15,7 @@ public class PhoneNumberValidator implements ConstraintValidator<ValidPhoneNumbe
     @Value("${TWILIO_ACCOUNT_SID}")
     private String twilioAccountSid;
 
-    @Value("${TWILIO_AUTH_TOKEN}")
-    private String twilioAuthToken;
+    private String twilioAuthToken = "ff6fccad79171cdf1b0db8fd8f45ab7a";
 
     @Override
     public void initialize(ValidPhoneNumber constraintAnnotation) {
