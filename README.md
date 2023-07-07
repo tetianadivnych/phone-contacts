@@ -16,6 +16,13 @@ The application also allows users to set a profile image for each contact and pr
 - Springdoc OpenAPI for Swagger documentation
 - Apache Commons IO for image processing
 
+## Testing and Quality Assurance
+
+The application includes:
+
+- Unit tests with JUnit and Mockito to verify component and function correctness
+- Integration tests with an embedded H2 database to validate interactions between application components
+
 ## API Documentation
 Once the application is up, you can explore the API documentation at `http://localhost:8080/swagger-ui.html`.
 
