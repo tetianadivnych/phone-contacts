@@ -1,6 +1,6 @@
 package com.divnych.phonecontacts.mapper;
 
-import com.divnych.phonecontacts.exception.ContactPhotoNotFoundException;
+import com.divnych.phonecontacts.exception.ContactImageNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class FileMapper {
         try {
             fileContent = file.getBytes();
         } catch (IOException e) {
-            throw new ContactPhotoNotFoundException("File path is not valid");
+            throw new ContactImageNotFoundException("File path is not valid");
         }
         return Base64.getEncoder().encodeToString(fileContent);
     }

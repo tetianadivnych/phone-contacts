@@ -41,8 +41,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(message);
     }
 
-    @ExceptionHandler(ContactPhotoNotFoundException.class)
-    public ResponseEntity<Object> handleContactPhotoNotFound(ContactPhotoNotFoundException ex) {
+    @ExceptionHandler(ContactImageNotFoundException.class)
+    public ResponseEntity<Object> handleContactImageNotFound(ContactImageNotFoundException ex) {
         String message = ex.getMessage();
         return ResponseEntity.badRequest().body(message);
     }
