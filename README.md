@@ -56,9 +56,9 @@ Access the application at `http://localhost:8080`
 
 Build the Docker image:
 ```
-$ docker build -t phone-contacts-app .
+$ docker build -t phone-contacts .
 ```
 Run the Docker container: 
 ```
-$ docker run -p 8080:8080 phone-contacts-app
+$ docker run -p 8080:8080 phone-contacts
 ```
