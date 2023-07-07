@@ -46,7 +46,6 @@ public class ContactServiceTest {
         assertEquals(2L, actualResult.get(1).getId());
     }
 
-
     @Test
     @DisplayName("Should create a new contact")
     public void testAddContact() {
@@ -132,7 +131,7 @@ public class ContactServiceTest {
         ContactRequest request = new ContactRequest();
         request.setName("Peter");
         request.setEmails(Set.of("p.parker@gmail.com", "peter.parker@gmail.com"));
-        request.setPhoneNumbers(Set.of("+380671122333", "+380671122334"));
+        request.setPhoneNumbers(Set.of("+380670000000", "+380670000001"));
         return request;
     }
 
@@ -147,6 +146,5 @@ public class ContactServiceTest {
         user.setId(id);
         return user;
     }
-
 
 }

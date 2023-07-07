@@ -100,7 +100,7 @@ public class ContactControllerTest {
         ContactRequest request = new ContactRequest();
         request.setName("Peter");
         request.setEmails(Set.of("p.parker@gmail.com", "peter.parker@gmail.com"));
-        request.setPhoneNumbers(Set.of("+380671122333", "+380671122334"));
+        request.setPhoneNumbers(Set.of("+380670000000", "+380670000001"));
         return request;
     }
 
@@ -117,4 +117,5 @@ public class ContactControllerTest {
         contact.setName("Monika");
         return contact;
     }
+
 }
